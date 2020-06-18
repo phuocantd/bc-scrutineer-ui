@@ -21,7 +21,7 @@ const authReducer = (state = initState, action) => {
         token: action.token,
       };
     case SIGN_OUT:
-      localStorage.setItem("access-token", null);
+      localStorage.removeItem("access-token");
       return {
         ...state,
         token: null,

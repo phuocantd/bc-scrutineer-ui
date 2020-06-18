@@ -167,3 +167,19 @@ body {
     bottom: 100%;
   }
 }
+
+.ant-modal-content {
+  background-color: #101010;
+}
+
+.ant-modal-header {
+  background-color: #000;
+}
+
+.text-modal {
+  color: #fff;
+}
+
+.ant-modal-title {
+  color: #fff;
+}
