@@ -8,6 +8,7 @@ import HomePage from "pages/home";
 import LoadingPage from "pages/loading";
 import LoginPage from "pages/login";
 import ProfilePage from "pages/profile";
+import ManagePage from "pages/manage";
 
 function App({ auth }) {
   return (
@@ -20,6 +21,9 @@ function App({ auth }) {
             <Switch>
               <Route exact path="/">
                 <HomePage />
+              </Route>
+              <Route exact path="/manage">
+                <ManagePage />
               </Route>
               <Route exact path="/profile">
                 <ProfilePage />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Layout, Menu } from "antd";
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, UserOutlined, TableOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 import "./index.css";
@@ -42,6 +42,12 @@ function LayoutPage({ children }) {
             <Link to="/">
               <HomeOutlined />
               <span>Home</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/manage">
+            <Link to="/manage">
+              <TableOutlined />
+              <span>Manage</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="/profile">
