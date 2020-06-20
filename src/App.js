@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
-function App() {
+import "./App.css";
+import Layout from "components/Layout";
+import HomePage from "pages/home";
+import LoadingPage from "pages/loading";
+import LoginPage from "pages/login";
+import ProfilePage from "pages/profile";
+import ManagePage from "pages/manage";
+
+function App({ auth }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        {auth.isLoading ? (
+          <LoadingPage />
+        ) : !!auth.token ? (
+          <Layout>
+            <Switch>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route exact path="/manage">
+                <ManagePage />
+              </Route>
+              <Route exact path="/profile">
+                <ProfilePage />
+              </Route>
+            </Switch>
+          </Layout>
+        ) : (
+          <LoginPage />
+        )}
+      </Router>
+    </>
   );
 }
 
-export default App;
+export default connect((state) => ({ auth: state.auth }))(App);
