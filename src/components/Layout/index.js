@@ -56,6 +56,11 @@ function LayoutPage({ children }) {
               <span>Profile</span>
             </Link>
           </Menu.Item>
+          <Menu.Item key="/blockchain">
+            <Link to="/blockchain">
+              <span>POA Network</span>
+            </Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
