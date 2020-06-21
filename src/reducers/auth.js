@@ -1,8 +1,9 @@
-import { RESTORE_TOKEN, SIGN_IN, SIGN_OUT } from "constants/auth";
+import { RESTORE_TOKEN, SIGN_IN, SIGN_OUT, SIGN_UP } from "constants/auth";
 
 const initState = {
   isLoading: true,
-  token: null,
+  privateKey: null,
+  publicKey: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -11,14 +12,23 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        token: action.token,
+        privateKey: action.privateKey,
+        publicKey: action.publicKey,
       };
 
     case SIGN_IN:
+      localStorage.setItem("privateKey", action.privateKey);
+      return {
+        ...state,
+        privateKey: action.privateKey,
+        token: action.privateKey,
+      };
+    case SIGN_UP:
       localStorage.setItem("access-token", action.token);
       return {
         ...state,
-        token: action.token,
+        privateKey: action.privateKey,
+        publicKey: action.publicKey,
       };
     case SIGN_OUT:
       localStorage.removeItem("access-token");
