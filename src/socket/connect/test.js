@@ -6,14 +6,30 @@ import { SOCKET_ENDPOINT } from "../../config";
 const blockchain = new BlockChain();
 var objCodec = require("object-encode");
 const ENDPOINT = SOCKET_ENDPOINT;
-
 const check = {
   count: 0,
   validCount: 0,
   isChecking: false,
 };
 
-function Test() {
+// const getAllVotes = () => {
+//   const d = localStorage.getItem("block-chain-data");
+//   if (!!d) {
+//     const chain = JSON.parse(objCodec.decode(d, "base64", 10));
+//     const temp = [];
+//     for (var i = 0; i < chain.length; i++) {
+//       const block = new Block();
+//       Object.assign(block, chain[i]);
+//       temp.push(block);
+//     }
+//     const tempBlockChain = new BlockChain();
+//     tempBlockChain.chain = chain;
+//     const data = tempBlockChain.getAllVotes();
+//     return data;
+//   } else return [];
+// };
+
+function Test({ children }) {
   const [sockets, setSockets] = useState();
   const updateChain = (chain) => {
     const temp = [];
@@ -31,22 +47,20 @@ function Test() {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-
     const d = localStorage.getItem("block-chain-data");
     if (!!d) {
       const chain = JSON.parse(objCodec.decode(d, "base64", 10));
       updateChain(chain);
     } else {
-      console.log(123);
-      console.log(d);
-      socket.emit("COMPARE LATEST BLOCK", blockchain.getLastedBlock());
+      socket.emit("CL REQUEST CHAIN");
     }
-
     socket.on("CONNECT", (data) => {
-      console.log(data);
+      // console.log(data);
       setSockets(data.sockets);
       socket.emit("COMPARE LATEST BLOCK", blockchain.getLastedBlock());
-      console.log(blockchain.chain);
+      // console.log(blockchain.chain);
+      saveChain();
+      // console.log(getAllVotes());
     });
     socket.on("NEW BLOCK", (block) => {
       console.log(block);
@@ -54,8 +68,23 @@ function Test() {
       saveChain();
     });
 
+    socket.on("SV SEND TEMP CHAIN", (BlockChain) => {
+      console.log(BlockChain);
+      updateChain(BlockChain.chain);
+      saveChain();
+    });
+
     socket.on("SV REQUEST CHAIN", () => {
       socket.emit("CL SEND CHAIN", blockchain);
+    });
+
+    socket.on("COMPARE LATEST BLOCK", (data) => {
+      console.log("COMPARE LATEST BLOCK");
+      socket.emit("RESULT COMPARE LATEST BLOCK", {
+        idSocket: data.idSocket,
+        block: data.block,
+        result: data.block.hash === blockchain.hash,
+      });
     });
 
     socket.on("COMPARE LATEST BLOCK", (data) => {
@@ -77,9 +106,9 @@ function Test() {
     });
 
     socket.on("RESULT COMPARE LATEST BLOCK", (data) => {
-      console.log("RESULT COMPARE LATEST BLOCK");
-      console.log(data);
-      console.log(data.result);
+      // console.log("RESULT COMPARE LATEST BLOCK");
+      // console.log(data);
+      // console.log(data.result);
       check.count++;
       if (check.isChecking) check.validCount++;
       if (sockets.length * 0.5 < check.count - check.validCount) {
@@ -119,7 +148,7 @@ function Test() {
     }
   }, []);
 
-  return <p>POA networks</p>;
+  return <div>{children}</div>;
 }
 
 export default Test;

@@ -9,7 +9,6 @@ import LoadingPage from "pages/loading";
 import LoginPage from "pages/login";
 import ProfilePage from "pages/profile";
 import ManagePage from "pages/manage";
-import BlockChainNetwork from './socket/connect/test';
 
 function App({ auth }) {
   return (
@@ -28,9 +27,6 @@ function App({ auth }) {
               </Route>
               <Route exact path="/profile">
                 <ProfilePage />
-              </Route>
-              <Route exact path="/blockchain">
-                <BlockChainNetwork />
               </Route>
             </Switch>
           </Layout>
