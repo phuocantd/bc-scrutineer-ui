@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table, Space } from "antd";
 import { Link } from "react-router-dom";
+const objCodec = require("object-encode");
 
 const columns = [
   {
@@ -46,24 +47,16 @@ const data = [
     address: "New York No. 1 Lake Park",
     names: ["SABSDGSDG", "AGSDGS", "ADGSDHGBDSK"],
   },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    id: "223368458",
-    address: "London No. 1 Lake Park",
-    names: ["AGSDGS", "ADGSDHGBDSK"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    id: "223562458",
-    address: "Sidney No. 1 Lake Park",
-    names: ["SABSDGSDG", "ADGSDHGBDSK"],
-  },
 ];
 
 export default function Manage() {
+  useEffect(() => {
+    const d = localStorage.getItem("block-chain-data");
+    if (!!d) {
+      const chain = JSON.parse(objCodec.decode(d, "base64", 10));
+      console.log(chain);
+    }
+  }, []);
+
   return <Table columns={columns} dataSource={data} />;
 }

@@ -15,7 +15,7 @@ function Login({ dispatch }) {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "http://localhost:3000/sign-in",
+      url: "http://localhost:3001/sign-in",
       data: {
         username,
         password,
@@ -23,7 +23,6 @@ function Login({ dispatch }) {
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.data.isSuccess) {
           dispatch(signIn(privateKey));
         } else {
@@ -31,17 +30,6 @@ function Login({ dispatch }) {
       })
       .catch((err) => console.log(err));
   };
-
-  // const handleOk = (e) => {
-  //   // console.log(e);
-  //   dispatch(signIn("Authenticated"));
-  //   // setVisible(false);
-  // };
-
-  // const handleCancel = (e) => {
-  //   // console.log(e);
-  //   setVisible(false);
-  // };
 
   return (
     <div>
@@ -87,15 +75,6 @@ function Login({ dispatch }) {
           </button>
         </form>
       </div>
-      {/* <Modal
-        title="Private key"
-        visible={visible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <h2 className='text-modal'>Remember to save your private key</h2>
-        <p className='text-modal'>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCWhxvjktEHV6zvVgbUoRk8K3yj</p>
-      </Modal> */}
     </div>
   );
 }

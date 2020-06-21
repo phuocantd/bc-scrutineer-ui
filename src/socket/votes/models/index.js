@@ -1,6 +1,6 @@
 const SHA256 = require("crypto-js/sha256");
-const { ec } = require("elliptic");
-const EC = new ec("secp256k1");
+// const { ec } = require("elliptic");
+// const EC = new ec("secp256k1");
 
 module.exports = class Vote {
   constructor(info, voteTo) {
